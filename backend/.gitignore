@@ -1,0 +1,6 @@
+*.swo
+*.swp
+bin
+obj
+.DS_Store
+.vscode
