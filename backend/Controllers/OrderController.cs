@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using backend.DTOs;
 using backend.Models;
-using backend.Services.BaseService;
 using backend.Services.OrderService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using backend.Helpers;
 
 namespace backend.Controllers
 {
@@ -21,6 +19,16 @@ namespace backend.Controllers
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<OrderReadDto>>> GetOrdersByUserId(Guid userId)
         {
+            
+            var user = HttpContext.User;
+            var isAdmin = user.IsInRole("Admin");
+            var isOwner = user.FindFirstValue(ClaimTypes.NameIdentifier) == userId.ToString();
+
+            if (!isAdmin && !isOwner)
+            {
+                throw ServiceException.Unauthorized();
+            }
+
             var orders = await _orderService.GetOrdersByUserId(userId);
             return Ok(orders);
         }

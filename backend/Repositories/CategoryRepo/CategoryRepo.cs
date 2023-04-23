@@ -15,7 +15,7 @@ namespace backend.Repositories.CategoryRepo
 
         public new async Task<IEnumerable<Category>> GetAllAsync(QueryOptions queryOptions)
         {
-            var query = _context.Categories.AsQueryable();
+            var query = _context.Categories.AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrEmpty(queryOptions.Search))
             {

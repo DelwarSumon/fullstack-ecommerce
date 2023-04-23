@@ -15,7 +15,7 @@ namespace backend.Repositories.ProductRepo
 
         public override async Task<IEnumerable<Product>> GetAllAsync(QueryOptions queryOptions)
         {
-            var query = _context.Products.AsQueryable();
+            var query = _context.Products.AsNoTracking().AsQueryable();
 
             if (queryOptions.CategoryId.HasValue)
             {

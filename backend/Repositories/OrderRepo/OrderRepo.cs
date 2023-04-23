@@ -13,7 +13,7 @@ namespace backend.Repositories.OrderRepo
 
         public override async Task<IEnumerable<Order>> GetAllAsync(QueryOptions queryOptions)
         {
-            var query = _context.Orders.AsQueryable();
+            var query = _context.Orders.AsNoTracking().AsQueryable();
 
             // pagination
             if (queryOptions.Limit > 0)
